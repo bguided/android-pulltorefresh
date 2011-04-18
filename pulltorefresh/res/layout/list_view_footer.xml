@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:text="Loading more items…"
+	android:textAppearance="?android:attr/textAppearanceLarge"
+	android:paddingBottom="26dp"
+	android:background="#dee0e9"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent"
+	android:gravity="center"
+	android:textColor="#6e6e6e"
+	android:minHeight="164dp"
+	android:layout_weight="1"  />

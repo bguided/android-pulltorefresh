@@ -51,6 +51,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
     private int mRefreshViewHeight;
     private int mRefreshOriginalTopPadding;
 	private IReachedFinalItemInList finalItemInListListener;
+	private View footerView;
 
     public PullToRefreshListView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -91,6 +92,10 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         mRefreshState = TAP_TO_REFRESH;
 
         addHeaderView(mRefreshView);
+        
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        footerView = layoutInflater.inflate(R.layout.list_view_footer, null);
+		addFooterView(footerView);
 
         setOnScrollListener(this);
 
@@ -320,7 +325,10 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         }
         boolean loadMore = (firstVisibleItem + visibleItemCount >= totalItemCount)&&(firstVisibleItem!=0&&visibleItemCount!=0&&totalItemCount!=00);
         if(loadMore) {
+        	footerView.setVisibility(View.VISIBLE);
         	finalItemInListListener.reachedFinalItem();
+        } else {
+        	footerView.setVisibility(View.GONE);
         }
     }
 
