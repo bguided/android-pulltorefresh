@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -25,7 +26,7 @@ import android.widget.AbsListView.OnScrollListener;
 import com.markupartist.android.widget.PullToRefreshListView.IReachedFinalItemInList;
 import com.markupartist.android.widget.pulltorefresh.R;
 
-public class PullToRefreshListView extends ListView implements OnScrollListener {
+public class PullToRefreshExpandableListView extends ExpandableListView implements OnScrollListener {
 
     private static final int TAP_TO_REFRESH = 1;
     private static final int PULL_TO_REFRESH = 2;
@@ -53,7 +54,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 	private IReachedFinalItemInList finalItemInListListener;
 	private View footerView;
 
-    public PullToRefreshListView(Context context, AttributeSet attrs) {
+    public PullToRefreshExpandableListView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         // Load all of the animations we need in code rather than through XML
@@ -416,7 +417,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         /**
          * Called when the list should be refreshed.
          * <p>
-         * A call to {@link PullToRefreshListView #onRefreshComplete()} is
+         * A call to {@link PullToRefreshExpandableListView #onRefreshComplete()} is
          * expected to indicate that the refresh has completed.
          */
         public void onRefresh();
@@ -427,8 +428,8 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
     	public void reachedFinalItem();
     }
     
-    public void setFinalItemListener(IReachedFinalItemInList listener){
-    	finalItemInListListener = listener;
+    public void setFinalItemListener(IReachedFinalItemInList finalItemInListListener){
+    	this.finalItemInListListener = finalItemInListListener;
     }
    
 }
