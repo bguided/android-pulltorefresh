@@ -325,8 +325,6 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
             setSelection(1);
         }
         
-        Log.i("List", "first = " + firstVisibleItem + " visible = " + visibleItemCount + " total = " + totalItemCount);
-        
         boolean loadMore = (firstVisibleItem + visibleItemCount >= totalItemCount)
         			&&(firstVisibleItem!=0&&visibleItemCount!=0&&totalItemCount!=00);
         
