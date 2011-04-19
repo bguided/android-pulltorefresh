@@ -23,7 +23,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.AbsListView.OnScrollListener;
 
-import com.markupartist.android.widget.PullToRefreshListView.IReachedFinalItemInList;
 import com.markupartist.android.widget.pulltorefresh.R;
 
 public class PullToRefreshExpandableListView extends ExpandableListView implements OnScrollListener {

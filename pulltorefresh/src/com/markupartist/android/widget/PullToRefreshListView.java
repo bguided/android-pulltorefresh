@@ -430,5 +430,9 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
     public void setFinalItemListener(IReachedFinalItemInList listener){
     	finalItemInListListener = listener;
     }
+    
+    public void hideFooter(){
+    	footerView.setVisibility(View.GONE);
+    }
    
 }
