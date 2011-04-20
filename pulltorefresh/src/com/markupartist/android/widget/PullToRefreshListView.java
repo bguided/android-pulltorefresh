@@ -36,7 +36,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
     private OnRefreshListener mOnRefreshListener;
     private LayoutInflater mInflater;
 
-    private LinearLayout mRefreshView;
+    public LinearLayout mRefreshView;
     private TextView mRefreshViewText;
     private ImageView mRefreshViewImage;
     private ProgressBar mRefreshViewProgress;
@@ -51,7 +51,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
     private int mRefreshViewHeight;
     private int mRefreshOriginalTopPadding;
 	private IReachedFinalItemInList finalItemInListListener;
-	private View footerView;
+	public View footerView;
 
     public PullToRefreshListView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -102,12 +102,12 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         measureView(mRefreshView);
         mRefreshViewHeight = mRefreshView.getMeasuredHeight();
     }
-
+    
     @Override
     protected void onAttachedToWindow() {
         setSelection(1);
     }
-
+    
     @Override
     public void setAdapter(ListAdapter adapter) {
         super.setAdapter(adapter);
