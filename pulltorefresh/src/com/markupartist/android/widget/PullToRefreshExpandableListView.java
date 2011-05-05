@@ -52,6 +52,7 @@ public class PullToRefreshExpandableListView extends ExpandableListView implemen
     private int mRefreshOriginalTopPadding;
 	private IReachedFinalItemInList finalItemInListListener;
 	private View footerView;
+	private boolean isRefreshing;
 
     public PullToRefreshExpandableListView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -121,7 +122,7 @@ public class PullToRefreshExpandableListView extends ExpandableListView implemen
      * @param onRefreshListener The callback to run.
      */
     public void setOnRefreshListener(OnRefreshListener onRefreshListener) {
-        mOnRefreshListener = onRefreshListener;
+        mOnRefreshListener = (OnRefreshListener) onRefreshListener;
     }
 
     /**
@@ -343,6 +344,7 @@ public class PullToRefreshExpandableListView extends ExpandableListView implemen
     }
 
     public void prepareForRefresh() {
+    	isRefreshing=true;
         resetHeaderPadding();
 
         mRefreshViewImage.setVisibility(View.GONE);
@@ -376,7 +378,8 @@ public class PullToRefreshExpandableListView extends ExpandableListView implemen
     /**
      * Resets the list to a normal state after a refresh.
      */
-    public void onRefreshComplete() {        
+    public void onRefreshComplete() {     
+    	isRefreshing = false;
         Log.d(TAG, "onRefreshComplete");
 
         resetHeader();
@@ -388,6 +391,12 @@ public class PullToRefreshExpandableListView extends ExpandableListView implemen
             setSelection(1);
         }
     }
+    
+    public void setHeaderToHidden(){
+		if (!isRefreshing){
+			onRefreshComplete();
+		}
+	}
 
     /**
      * Invoked when the refresh view is clicked on. This is mainly used when

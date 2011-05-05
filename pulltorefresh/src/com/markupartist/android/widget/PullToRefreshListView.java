@@ -55,6 +55,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 
 	private boolean useFooter;
 	private int pagingSize;
+	private boolean isRefreshing;
 	
 	private static final int DEFAULT_PAGING_SIZE=10;
 
@@ -352,6 +353,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 	}
 
 	public void prepareForRefresh() {
+		isRefreshing = true;
 		resetHeaderPadding();
 
 		mRefreshViewImage.setVisibility(View.GONE);
@@ -385,7 +387,8 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 	/**
 	 * Resets the list to a normal state after a refresh.
 	 */
-	public void onRefreshComplete() {        
+	public void onRefreshComplete() {  
+		isRefreshing = false;
 		Log.d(TAG, "onRefreshComplete");
 
 		resetHeader();
@@ -395,6 +398,12 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 		if (mRefreshView.getBottom() > 0) {
 			invalidateViews();
 			setSelection(1);
+		}
+	}
+	
+	public void setHeaderToHidden(){
+		if (!isRefreshing){
+			onRefreshComplete();
 		}
 	}
 
