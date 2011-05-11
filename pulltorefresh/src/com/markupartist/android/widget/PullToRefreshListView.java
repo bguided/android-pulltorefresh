@@ -21,8 +21,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.AbsListView.OnScrollListener;
-
-import com.markupartist.android.widget.PullToRefreshListView.IReachedFinalItemInList;
 import com.markupartist.android.widget.pulltorefresh.R;
 
 public class PullToRefreshListView extends ListView implements OnScrollListener {
@@ -102,14 +100,14 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 		LayoutInflater layoutInflater = LayoutInflater.from(context);
 		footerView = layoutInflater.inflate(R.layout.list_view_footer, null);
 		addFooterView(footerView);
-
 		setOnScrollListener(this);
-
+		
 		useFooter = true;
 		pagingSize = DEFAULT_PAGING_SIZE;
 
 		measureView(mRefreshView);
 		mRefreshViewHeight = mRefreshView.getMeasuredHeight();
+
 	}
 
 	@Override
@@ -262,10 +260,10 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 	/**
 	 * Resets the header to the original state.
 	 */
-	private void resetHeader() {
+	public void resetHeader() {
 		if (mRefreshState != TAP_TO_REFRESH) {
 			mRefreshState = TAP_TO_REFRESH;
-
+			
 			resetHeaderPadding();
 
 			// Set refresh view text to the pull label
@@ -277,6 +275,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 			// Hide progress bar and arrow.
 			mRefreshViewImage.setVisibility(View.GONE);
 			mRefreshViewProgress.setVisibility(View.GONE);
+			mRefreshView.setVisibility(View.GONE);
 		}
 	}
 
@@ -319,6 +318,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 					mRefreshViewImage.startAnimation(mFlipAnimation);
 				} else if (mRefreshView.getBottom() < mRefreshViewHeight
 						&& mRefreshState != PULL_TO_REFRESH) {
+					mRefreshView.setVisibility(View.VISIBLE);
 					mRefreshState = PULL_TO_REFRESH;
 					mRefreshViewText.setText(R.string.pull_to_refresh_pull_label);
 					mRefreshViewImage.clearAnimation();
@@ -335,7 +335,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 		}
 
 		if (useFooter){        
-			boolean loadMore = (firstVisibleItem + visibleItemCount >= totalItemCount)
+			boolean loadMore = (firstVisibleItem + visibleItemCount >= totalItemCount-3)
 			&&(firstVisibleItem!=0&&visibleItemCount!=0&&totalItemCount!=00) && (totalItemCount > pagingSize);        
 			if(loadMore) {
 				footerView.setVisibility(View.VISIBLE);
@@ -353,9 +353,13 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 	}
 
 	public void prepareForRefresh() {
+		if (mRefreshView.getVisibility()==View.GONE){
+			mRefreshView.setVisibility(View.VISIBLE);
+		}
 		isRefreshing = true;
+		
 		resetHeaderPadding();
-
+		
 		mRefreshViewImage.setVisibility(View.GONE);
 		// We need this hack, otherwise it will keep the previous drawable.
 		mRefreshViewImage.setImageDrawable(null);
@@ -403,7 +407,13 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 	
 	public void setHeaderToHidden(){
 		if (!isRefreshing){
-			onRefreshComplete();
+			resetHeader();
+			//onRefreshComplete();
+		}
+		
+		if (mRefreshView.getBottom() > 0) {
+			invalidateViews();
+			setSelection(1);
 		}
 	}
 
